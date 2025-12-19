@@ -16,6 +16,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* Import Montserrat exactly as requested */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
         body { font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
         h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
 
@@ -26,14 +29,48 @@
         @keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
         .animate-float { animation: floatCard 6s ease-in-out infinite alternate; }
 
-        /* Robus Gradient Background (Fixed Black Screen Issue) */
+        /* Background - Harmonized with Logo Colors */
         .aura-bg {
-            background-color: #f3e8ff;
-            background: linear-gradient(135deg, #fff0f5 0%, #e9d5ff 50%, #fbcfe8 100%);
+            background-color: #f8f9fa;
+            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f3e8ff 50%, #e0f2fe 100%);
             background-size: 200% 200%;
             animation: gradientBG 15s ease infinite;
         }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* --- EXACT LOGO CSS FROM USER --- */
+        .logo-container {
+            text-align: center;
+        }
+
+        .logo-title {
+            font-family: 'Montserrat', sans-serif; /* Explicitly set font here */
+            font-size: 64px;
+            font-weight: 600;
+            background: linear-gradient(90deg, #007bff, #d63384);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.1em;
+            line-height: 1.2; /* Added slightly for better vertical alignment */
+        }
+
+        .logo-subtitle {
+            font-family: 'Montserrat', sans-serif; /* Explicitly set font here */
+            font-size: 20px;
+            color: #8e44ec;
+            margin-top: 10px;
+            letter-spacing: 0.02em;
+        }
+
+        /* Mobile adjustment to prevent cutoff, while keeping style */
+        @media (max-width: 640px) {
+            .logo-title {
+                font-size: 42px; 
+            }
+            .logo-subtitle {
+                font-size: 16px;
+            }
+        }
 
         /* Option Button */
         .option-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -67,8 +104,8 @@
     <div class="absolute inset-0 bg-white/30 backdrop-blur-[2px] z-0 pointer-events-none"></div>
     
     <!-- Background Blobs -->
-    <div class="blob absolute bg-purple-300 w-96 h-96 top-[-10%] left-[-10%] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse pointer-events-none"></div>
-    <div class="blob absolute bg-pink-300 w-96 h-96 bottom-[-10%] right-[-10%] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse pointer-events-none" style="animation-delay: 2s"></div>
+    <div class="blob absolute bg-blue-200 w-96 h-96 top-[-10%] left-[-10%] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse pointer-events-none"></div>
+    <div class="blob absolute bg-pink-200 w-96 h-96 bottom-[-10%] right-[-10%] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse pointer-events-none" style="animation-delay: 2s"></div>
 
     <div id="root" class="h-full w-full relative z-10"></div>
 
@@ -447,9 +484,10 @@
                         <div className="h-full w-full flex flex-col items-center justify-center p-6 text-center animate-fade-in relative overflow-hidden">
                             
                             <div className="bg-white/60 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/50 max-w-lg w-full relative z-10 mx-4">
-                                <div className="mb-6 mx-auto flex justify-center">
+                                <div className="mb-6 mx-auto flex flex-col items-center justify-center text-center logo-container">
                                     {/* Updated Logo Area */}
-                                    <h1 className="text-6xl md:text-8xl font-black text-slate-900 serif-font tracking-tighter drop-shadow-sm">Ailure</h1>
+                                    <div className="logo-title">AILURE</div>
+                                    <div className="logo-subtitle">AI-Personalised Scents. For Calm.</div>
                                 </div>
                                 
                                 <div className="w-16 h-1 bg-purple-400 mx-auto mb-6 rounded-full"></div>
