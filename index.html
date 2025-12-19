@@ -1,595 +1,510 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ailure - Fragrance Finder</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & ReactDOM -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <!-- Babel -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Ailure - Fragrance Finder</title>
 
-    <style>
-        /* Import Montserrat exactly as requested */
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- Babel -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-        body { font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
-        h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
-        
-        @keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
-        .animate-float { animation: floatCard 6s ease-in-out infinite alternate; }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
 
-        /* Background - Harmonized with Logo Colors */
-        .aura-bg {
-            background-color: #f8f9fa;
-            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f3e8ff 50%, #e0f2fe 100%);
-            background-size: 200% 200%;
-            animation: gradientBG 15s ease infinite;
-        }
-        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    body { font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+    h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
 
-        /* --- EXACT LOGO CSS FROM USER --- */
-        .logo-container {
-            text-align: center;
-        }
+    /* Animations */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade-in { animation: fadeIn 0.6s ease-out forwards; }
 
-        .logo-title {
-            font-family: 'Montserrat', sans-serif; /* Explicitly set font here */
-            font-size: 64px;
-            font-weight: 600;
-            background: linear-gradient(90deg, #007bff, #d63384);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 0.1em;
-            line-height: 1.2; /* Added slightly for better vertical alignment */
-        }
+    @keyframes floatCard { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
+    .animate-float { animation: floatCard 6s ease-in-out infinite alternate; }
 
-        .logo-subtitle {
-            font-family: 'Montserrat', sans-serif; /* Explicitly set font here */
-            font-size: 20px;
-            color: #8e44ec;
-            margin-top: 10px;
-            letter-spacing: 0.02em;
-        }
+    /* ✅ LANDING PAGE IMAGE BACKGROUND */
+    .front-bg {
+      width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      position: relative;
 
-        /* Mobile adjustment to prevent cutoff, while keeping style */
-        @media (max-width: 640px) {
-            .logo-title {
-                font-size: 42px; 
-            }
-            .logo-subtitle {
-                font-size: 16px;
-            }
-        }
+      /* If your file name has a space, use %20 */
+      background-image: url("Background%20Pic.jpeg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
-        /* Option Button */
-        .option-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .option-btn:active { transform: scale(0.98); }
-        .option-btn.active { 
-            background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); 
-            border-color: #9333ea; 
-            color: #6b21a8; 
-            box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2); 
-        }
-        
-        /* Multiselect specific */
-        .option-btn.selected {
-            background: #f0abfc;
-            border-color: #d946ef;
-            color: #fff;
-        }
+    /* Soft overlay (same feel) */
+    .front-bg::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        /* Mobile Safe Area */
-        .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-        
-        /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c084fc; border-radius: 10px; }
-    </style>
+    /* --- EXACT LOGO CSS FROM USER --- */
+    .logo-container { text-align: center; }
+
+    .logo-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 64px;
+      font-weight: 600;
+      background: linear-gradient(90deg, #007bff, #d63384);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.1em;
+      line-height: 1.2;
+    }
+
+    .logo-subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      color: #8e44ec;
+      margin-top: 10px;
+      letter-spacing: 0.02em;
+    }
+
+    @media (max-width: 640px) {
+      .logo-title { font-size: 42px; }
+      .logo-subtitle { font-size: 16px; }
+    }
+
+    /* Option Button */
+    .option-btn { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+    .option-btn:active { transform: scale(0.98); }
+    .option-btn.active {
+      background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+      border-color: #9333ea;
+      color: #6b21a8;
+      box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
+    }
+
+    .option-btn.selected {
+      background: #f0abfc;
+      border-color: #d946ef;
+      color: #fff;
+    }
+
+    .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #c084fc; border-radius: 10px; }
+  </style>
 </head>
-<body class="aura-bg h-[100dvh] overflow-hidden text-slate-800 relative">
 
-    <!-- Overlay to soften the background -->
-    <div class="absolute inset-0 bg-white/30 backdrop-blur-[2px] z-0 pointer-events-none"></div>
-    
-    <!-- Background Blobs -->
-    <div class="blob absolute bg-blue-200 w-96 h-96 top-[-10%] left-[-10%] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse pointer-events-none"></div>
-    <div class="blob absolute bg-pink-200 w-96 h-96 bottom-[-10%] right-[-10%] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse pointer-events-none" style="animation-delay: 2s"></div>
+<body class="h-[100dvh] overflow-hidden text-slate-800 relative bg-white">
+  <div id="root" class="h-full w-full relative z-10"></div>
 
-    <div id="root" class="h-full w-full relative z-10"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-    <script type="text/babel">
-        const { useState, useMemo, useEffect } = React;
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb0sNDoHS25JKXOIKHNoJ2zhxPEjRtBGSeseBRro8h0AkmJevVxWehQp8qGahXW5ZgUw/exec";
 
-        // --- GOOGLE SCRIPT URL (ANALYTICS ONLY, NO PII) ---
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxb0sNDoHS25JKXOIKHNoJ2zhxPEjRtBGSeseBRro8h0AkmJevVxWehQp8qGahXW5ZgUw/exec"; 
+    const Icons = {
+      Wind: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>,
+      Zap: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+      Brain: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>,
+      Trees: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 10v.2A3 3 0 0 1 8.9 16v0H5v0h0a3 3 0 0 1-1-5.8V10a3 3 0 0 1 5.3-2.1"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .6-1.7L13 2.6a1 1 0 0 0-1.7 0L8.3 7.3a1 1 0 0 0 .6 1.7H9.1a1 1 0 0 0 .7 1.7L7 14h.4a1 1 0 0 0 .7 1.7L11 19z"/></svg>,
+      Heart: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>,
+      Sparkles: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 3v4"/><path d="M3 5h4"/><path d="M3 9h4"/></svg>,
+      Activity: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
+      RefreshCw: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>,
+      ArrowRight: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>,
+      Sun: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>,
+      Moon: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>,
+      Users: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    };
 
-        // --- ICONS ---
-        const Icons = {
-            Wind: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>,
-            Zap: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
-            Brain: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z"/></svg>,
-            Trees: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 10v.2A3 3 0 0 1 8.9 16v0H5v0h0a3 3 0 0 1-1-5.8V10a3 3 0 0 1 5.3-2.1"/><path d="M7 16v6"/><path d="M13 19v3"/><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .6-1.7L13 2.6a1 1 0 0 0-1.7 0L8.3 7.3a1 1 0 0 0 .6 1.7H9.1a1 1 0 0 0 .7 1.7L7 14h.4a1 1 0 0 0 .7 1.7L11 19z"/></svg>,
-            Heart: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>,
-            Sparkles: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M9 3v4"/><path d="M3 5h4"/><path d="M3 9h4"/></svg>,
-            Activity: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>,
-            RefreshCw: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>,
-            ArrowRight: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>,
-            Sun: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>,
-            Moon: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>,
-            Users: (props) => <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        };
+    // --- DATABASE ---
+    const FRAGRANCE_DB = [
+      { id: 1, name: "Tranquil Sleep", category: "stress_sleep", tags: ["sleep","stress","calm","relax"], description: "Deep relaxation for poor sleep and high stress.", moods: ["Relaxation","Anxiety Relief","Insomnia Aid"], iconComponent: Icons.Wind, image: "https://images.unsplash.com/photo-1519681393798-38e363ba115e?auto=format&fit=crop&w=800&q=80" },
+      { id: 2, name: "Morning Vitality", category: "energy", tags: ["energy","morning","citrus","uplift"], description: "Gentle awakening for morning fatigue and low energy.", moods: ["Gentle Awakening","Mood Uplift","Energy Boost"], iconComponent: Icons.Zap, image: "https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=800&q=80" },
+      { id: 3, name: "Focus Flow", category: "focus", tags: ["focus","work","clarity","sharp"], description: "Enhances concentration and mental clarity for desk work.", moods: ["High Focus","Mental Clarity","Concentration"], iconComponent: Icons.Brain, image: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?auto=format&fit=crop&w=800&q=80" },
+      { id: 4, name: "Emotional Balance", category: "balance", tags: ["balance","emotion","grounding","steady"], description: "Grounding and stability for emotional swings.", moods: ["Inner Stability","Grounding","Calm"], iconComponent: Icons.Heart, image: "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80" },
+      { id: 5, name: "Calm Confidence", category: "confidence", tags: ["confidence","social","anxiety","presence"], description: "Boosts presence and reduces anxiety during high interaction.", moods: ["Confidence","Presence","Networking"], iconComponent: Icons.Sparkles, image: "https://images.unsplash.com/photo-1595341388084-77a8f77732dc?auto=format&fit=crop&w=800&q=80" },
+      { id: 6, name: "Digital Detox", category: "digital", tags: ["digital","screens","detox","nature"], description: "Eye relief and sensory relaxation for high screen users.", moods: ["Eye Relief","Senses Relaxation","Unplugging"], iconComponent: Icons.Activity, image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80" },
+      { id: 7, name: "Urban Shield", category: "digital", tags: ["pollution","city","clean","fresh"], description: "Refreshing and cleansing against harsh environments.", moods: ["Refreshing","Cleansing","Protection"], iconComponent: Icons.Trees, image: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80" },
+      { id: 8, name: "Meditative Stillness", category: "stress_sleep", tags: ["meditation","calm","deep","zen"], description: "Deep calm for introspection and mindfulness.", moods: ["Deep Calm","Introspection","Mindfulness"], iconComponent: Icons.Wind, image: "https://images.unsplash.com/photo-1528319725582-ddc096101511?auto=format&fit=crop&w=800&q=80" },
+      { id: 9, name: "Fresh Optimism", category: "energy", tags: ["joy","fresh","happy","bright"], description: "Uplifts low mood and emotional flatness.", moods: ["Emotional Uplift","Motivation","Joy"], iconComponent: Icons.Zap, image: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=800&q=80" },
+      { id: 10, name: "Warm Comfort", category: "balance", tags: ["comfort","warm","cozy","hug"], description: "Safe, nurturing relaxation for emotional fatigue.", moods: ["Security","Nurturing","Relaxation"], iconComponent: Icons.Heart, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" },
+      { id: 11, name: "Creative Spark", category: "focus", tags: ["creativity","art","ideas","flow"], description: "Unlocks imagination and flows through creative blocks.", moods: ["Inspiration","Imagination Flow","Creativity"], iconComponent: Icons.Brain, image: "https://images.unsplash.com/photo-1501472312651-726afe119ff1?auto=format&fit=crop&w=800&q=80" },
+      { id: 12, name: "Balanced Everyday", category: "balance", tags: ["everyday","neutral","stable"], description: "A neutral, stable fragrance for general lifestyle.", moods: ["Stability","Neutral","Daily Wear"], iconComponent: Icons.RefreshCw, image: "https://images.unsplash.com/photo-1594035910387-fea477942698?auto=format&fit=crop&w=800&q=80" }
+    ];
 
-        // --- DATABASE ---
-        const FRAGRANCE_DB = [
-            { id: 1, name: "Tranquil Sleep", category: "stress_sleep", tags: ["sleep", "stress", "calm", "relax"], description: "Deep relaxation for poor sleep and high stress.", moods: ["Relaxation", "Anxiety Relief", "Insomnia Aid"], iconComponent: Icons.Wind, image: "https://images.unsplash.com/photo-1519681393798-38e363ba115e?auto=format&fit=crop&w=800&q=80" },
-            { id: 2, name: "Morning Vitality", category: "energy", tags: ["energy", "morning", "citrus", "uplift"], description: "Gentle awakening for morning fatigue and low energy.", moods: ["Gentle Awakening", "Mood Uplift", "Energy Boost"], iconComponent: Icons.Zap, image: "https://images.unsplash.com/photo-1620916297397-a4a5402a3c6c?auto=format&fit=crop&w=800&q=80" },
-            { id: 3, name: "Focus Flow", category: "focus", tags: ["focus", "work", "clarity", "sharp"], description: "Enhances concentration and mental clarity for desk work.", moods: ["High Focus", "Mental Clarity", "Concentration"], iconComponent: Icons.Brain, image: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?auto=format&fit=crop&w=800&q=80" },
-            { id: 4, name: "Emotional Balance", category: "balance", tags: ["balance", "emotion", "grounding", "steady"], description: "Grounding and stability for emotional swings.", moods: ["Inner Stability", "Grounding", "Calm"], iconComponent: Icons.Heart, image: "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80" },
-            { id: 5, name: "Calm Confidence", category: "confidence", tags: ["confidence", "social", "anxiety", "presence"], description: "Boosts presence and reduces anxiety during high interaction.", moods: ["Confidence", "Presence", "Networking"], iconComponent: Icons.Sparkles, image: "https://images.unsplash.com/photo-1595341388084-77a8f77732dc?auto=format&fit=crop&w=800&q=80" },
-            { id: 6, name: "Digital Detox", category: "digital", tags: ["digital", "screens", "detox", "nature"], description: "Eye relief and sensory relaxation for high screen users.", moods: ["Eye Relief", "Senses Relaxation", "Unplugging"], iconComponent: Icons.Activity, image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=800&q=80" },
-            { id: 7, name: "Urban Shield", category: "digital", tags: ["pollution", "city", "clean", "fresh"], description: "Refreshing and cleansing against harsh environments.", moods: ["Refreshing", "Cleansing", "Protection"], iconComponent: Icons.Trees, image: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80" },
-            { id: 8, name: "Meditative Stillness", category: "stress_sleep", tags: ["meditation", "calm", "deep", "zen"], description: "Deep calm for introspection and mindfulness.", moods: ["Deep Calm", "Introspection", "Mindfulness"], iconComponent: Icons.Wind, image: "https://images.unsplash.com/photo-1528319725582-ddc096101511?auto=format&fit=crop&w=800&q=80" },
-            { id: 9, name: "Fresh Optimism", category: "energy", tags: ["joy", "fresh", "happy", "bright"], description: "Uplifts low mood and emotional flatness.", moods: ["Emotional Uplift", "Motivation", "Joy"], iconComponent: Icons.Zap, image: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=800&q=80" },
-            { id: 10, name: "Warm Comfort", category: "balance", tags: ["comfort", "warm", "cozy", "hug"], description: "Safe, nurturing relaxation for emotional fatigue.", moods: ["Security", "Nurturing", "Relaxation"], iconComponent: Icons.Heart, image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" },
-            { id: 11, name: "Creative Spark", category: "focus", tags: ["creativity", "art", "ideas", "flow"], description: "Unlocks imagination and flows through creative blocks.", moods: ["Inspiration", "Imagination Flow", "Creativity"], iconComponent: Icons.Brain, image: "https://images.unsplash.com/photo-1501472312651-726afe119ff1?auto=format&fit=crop&w=800&q=80" },
-            { id: 12, name: "Balanced Everyday", category: "balance", tags: ["everyday", "neutral", "stable"], description: "A neutral, stable fragrance for general lifestyle.", moods: ["Stability", "Neutral", "Daily Wear"], iconComponent: Icons.RefreshCw, image: "https://images.unsplash.com/photo-1594035910387-fea477942698?auto=format&fit=crop&w=800&q=80" }
-        ];
+    // --- QUESTIONS (same as your file) ---
+    const INITIAL_QUESTIONS = [
+      { id: "initial_mood", text: "How would you describe your current mood state?", icon: Icons.Heart, type: "options", options: [
+        { label: "Calm And Clear", value: "calm" },
+        { label: "Tired Or Low", value: "tired" },
+        { label: "Stressed Or Overwhelmed", value: "stressed" },
+        { label: "Happy And Motivated", value: "happy" },
+        { label: "Not Sure, Just Mixed", value: "mixed" }
+      ]},
+      { id: "identify_feeling", text: "Do you find it hard to identify what you are feeling?", icon: Icons.Brain, type: "options", options: [
+        { label: "Always", value: "always" },
+        { label: "Often", value: "often" },
+        { label: "Sometimes", value: "sometimes" },
+        { label: "Rarely", value: "rarely" },
+        { label: "Never", value: "never" }
+      ]},
+      { id: "wellness_priority", text: "What is your current wellness priority?", icon: Icons.Sparkles, type: "options", options: [
+        { label: "Reduce Stress & Feel Calmer", value: "stress" },
+        { label: "Improve Focus & Mental Clarity", value: "focus" },
+        { label: "Boost Energy Or Uplift My Mood", value: "energy" },
+        { label: "Feel Emotionally Balanced & Grounded", value: "balance" },
+        { label: "Improve Sleep & Unwind Deeply", value: "sleep" },
+        { label: "Feel Refreshed After Digital Fatigue", value: "digital" },
+        { label: "Enhance Creativity And Fresh Ideas", value: "creativity" },
+        { label: "Improve Confidence In Social Environment", value: "confidence" }
+      ]}
+    ];
 
-        // --- QUESTIONS ---
-        const INITIAL_QUESTIONS = [
-            {
-                id: "initial_mood",
-                text: "How would you describe your current mood state?",
-                icon: Icons.Heart,
-                type: "options",
-                options: [
-                    { label: "Calm And Clear", value: "calm" },
-                    { label: "Tired Or Low", value: "tired" },
-                    { label: "Stressed Or Overwhelmed", value: "stressed" },
-                    { label: "Happy And Motivated", value: "happy" },
-                    { label: "Not Sure, Just Mixed", value: "mixed" }
-                ]
-            },
-            {
-                id: "identify_feeling",
-                text: "Do you find it hard to identify what you are feeling?",
-                icon: Icons.Brain,
-                type: "options",
-                options: [
-                    { label: "Always", value: "always" },
-                    { label: "Often", value: "often" },
-                    { label: "Sometimes", value: "sometimes" },
-                    { label: "Rarely", value: "rarely" },
-                    { label: "Never", value: "never" }
-                ]
-            },
-            {
-                id: "wellness_priority",
-                text: "What is your current wellness priority?",
-                icon: Icons.Sparkles,
-                type: "options",
-                options: [
-                    { label: "Reduce Stress & Feel Calmer", value: "stress" },
-                    { label: "Improve Focus & Mental Clarity", value: "focus" },
-                    { label: "Boost Energy Or Uplift My Mood", value: "energy" },
-                    { label: "Feel Emotionally Balanced & Grounded", value: "balance" },
-                    { label: "Improve Sleep & Unwind Deeply", value: "sleep" },
-                    { label: "Feel Refreshed After Digital Fatigue", value: "digital" },
-                    { label: "Enhance Creativity And Fresh Ideas", value: "creativity" }, 
-                    { label: "Improve Confidence In Social Environment", value: "confidence" }
-                ]
+    const BRANCH_QUESTIONS = {
+      stress: [
+        { id: "stress_type", text: "What kind of stress do you experience most?", icon: Icons.Wind, type: "options", options: [{label:"Mental Overload",value:"mental"},{label:"Emotional Tension",value:"emotional"},{label:"Physical Fatigue",value:"physical"},{label:"Social Overwhelmed",value:"social"}] },
+        { id: "calm_type", text: "What kind of calm do you prefer?", icon: Icons.Wind, type: "options", options: [{label:"Deep Relaxation",value:"deep"},{label:"Soft, Steady Calm",value:"soft"},{label:"Cleansing And Fresh Calm",value:"fresh"},{label:"Grounded & Earthy",value:"earthy"}] },
+        { id: "stress_peak", text: "When do you feel stress peaks?", icon: Icons.Sun, type: "options", options: [{label:"Morning",value:"morning"},{label:"Midday",value:"midday"},{label:"Evening",value:"evening"},{label:"All Day",value:"all_day"}] }
+      ],
+      focus: [
+        { id: "focus_block", text: "What blocks your focus most?", icon: Icons.Brain, type: "options", options: [{label:"Distractions",value:"distractions"},{label:"Mental Fog",value:"fog"},{label:"Low Motivation",value:"low_mo"},{label:"Screens / Digital Fatigue",value:"screens"}] },
+        { id: "focus_type", text: "What kind of focus do you want?", icon: Icons.Brain, type: "options", options: [{label:"Sharp And Intense",value:"sharp"},{label:"Smooth, Steady Concentration",value:"smooth"},{label:"Creative Focus",value:"creative"},{label:"Calm Attention",value:"calm"}] },
+        { id: "focus_peak", text: "When do you need focus the most?", icon: Icons.Sun, type: "options", options: [{label:"Morning",value:"morning"},{label:"Afternoon",value:"afternoon"},{label:"Evening",value:"evening"},{label:"Late-night Studying",value:"night"}] }
+      ],
+      creativity: [
+        { id: "creative_goal", text: "What are you trying to unlock?", icon: Icons.Brain, type: "options", options: [{label:"Imagination",value:"imagination"},{label:"Problem Solving",value:"problem_solving"},{label:"Motivation",value:"motivation"},{label:"Playfulness",value:"playfulness"}] },
+        { id: "creative_spark", text: "What type of spark do you want?", icon: Icons.Sparkles, type: "options", options: [{label:"Bright & Zesty",value:"bright"},{label:"Herbal Clarity",value:"herbal"},{label:"Soft Spice",value:"spice"},{label:"Unique & Quirky",value:"unique"}] },
+        { id: "creative_time", text: "When are you most creative?", icon: Icons.Sun, type: "options", options: [{label:"Morning",value:"morning"},{label:"Afternoon",value:"afternoon"},{label:"Late Evening",value:"late_evening"},{label:"Random Bursts",value:"random"}] }
+      ],
+      energy: [
+        { id: "energy_drain", text: "What drains your energy most?", icon: Icons.Zap, type: "options", options: [{label:"Lack Of Sleep",value:"sleep"},{label:"Stress",value:"stress"},{label:"Mental Burnout",value:"burnout"},{label:"Boredom / Monotony",value:"boredom"}] },
+        { id: "uplift_type", text: "What kind of uplift do you prefer?", icon: Icons.Zap, type: "options", options: [{label:"Bright, Citrusy",value:"citrus"},{label:"Warm And Comforting",value:"warm"},{label:"Fresh And Airy",value:"fresh"},{label:"Sparkling And Vibrant",value:"vibrant"}] },
+        { id: "energy_dip", text: "When do your energy dips usually happen?", icon: Icons.Sun, type: "options", options: [{label:"Morning",value:"morning"},{label:"Afternoon Slump",value:"afternoon"},{label:"Late Evening",value:"evening"},{label:"Randomly",value:"random"}] }
+      ],
+      balance: [
+        { id: "balance_goal", text: "What do you want to feel more of?", icon: Icons.Heart, type: "options", options: [{label:"Stability",value:"stability"},{label:"Comfort",value:"comfort"},{label:"Emotional Strength",value:"strength"},{label:"Clarity",value:"clarity"}] },
+        { id: "grounding_type", text: "What helps you feel grounded?", icon: Icons.Trees, type: "options", options: [{label:"Earthy Scents",value:"earthy"},{label:"Woods & Resins",value:"woods"},{label:"Soft Florals",value:"floral"},{label:"Warm, Cozy Notes",value:"warm"}] },
+        { id: "imbalance_time", text: "When do you feel most emotionally off-balance?", icon: Icons.Activity, type: "options", options: [{label:"At Work",value:"work"},{label:"At Home",value:"home"},{label:"In Social Situations",value:"social"},{label:"Random Moments",value:"random"}] }
+      ],
+      sleep: [
+        { id: "sleep_block", text: "What affects your sleep the most?", icon: Icons.Moon, type: "options", options: [{label:"Racing Mind",value:"mind"},{label:"Stress",value:"stress"},{label:"Screens",value:"screens"},{label:"Body Tension",value:"body"}] },
+        { id: "bedtime_vibe", text: "What bedtime vibe do you prefer?", icon: Icons.Moon, type: "options", options: [{label:"Deep Calm",value:"deep"},{label:"Cozy & Warm",value:"cozy"},{label:"Dreamy & Soft",value:"dreamy"},{label:"Clean & Airy",value:"clean"}] },
+        { id: "unwind_time", text: "How long before bed do you unwind?", icon: Icons.Activity, type: "options", options: [{label:"Immediately Before",value:"now"},{label:"30 Minutes Before",value:"30min"},{label:"1 Hour Before",value:"1hr"},{label:"I Don’t Unwind Consciously",value:"none"}] }
+      ],
+      digital: [
+        { id: "city_drain", text: "What drains you most in cities?", icon: Icons.Activity, type: "options", options: [{label:"Noise",value:"noise"},{label:"Screens",value:"screens"},{label:"Pollution / Air",value:"pollution"},{label:"People / Crowds",value:"crowds"}] },
+        { id: "fresh_vibe", text: "What fresh feeling do you want?", icon: Icons.Trees, type: "options", options: [{label:"Clean & Crisp",value:"clean"},{label:"Herbal Green",value:"herbal"},{label:"Citrus Bright",value:"citrus"},{label:"Cool + Minty",value:"cool"}] },
+        { id: "fatigue_time", text: "When does fatigue hit?", icon: Icons.Sun, type: "options", options: [{label:"After Commute",value:"commute"},{label:"Mid-day Slump",value:"midday"},{label:"Evenings",value:"evening"},{label:"Constantly",value:"constantly"}] }
+      ],
+      confidence: [
+        { id: "social_feel", text: "How Do You Usually Feel Before Meeting New People or Attending Social Gatherings??", icon: Icons.Users, type: "options", options: [{label:"Calm Or Excited",value:"calm"},{label:"Slightly Uneasy",value:"uneasy"},{label:"Noticeably Anxious",value:"anxious"},{label:"I Try To Avoid It",value:"avoid"}] },
+        { id: "social_experience", text: "During social interactions, what do you experience most?", icon: Icons.Users, type: "options", options: [{label:"Normal And Present",value:"normal"},{label:"Overthinking",value:"overthinking"},{label:"Physical Tension",value:"tension"},{label:"Urge To Leave",value:"leave"}] },
+        { id: "social_energy", text: "How do social interactions affect your energy?", icon: Icons.Zap, type: "options", options: [{label:"Energizing",value:"energizing"},{label:"Neutral",value:"neutral"},{label:"Draining",value:"draining"},{label:"Extremely Exhausting",value:"exhausting"}] }
+      ]
+    };
+
+    /* ✅ Your original file referenced FINAL_QUESTIONS but it wasn't included in the paste.
+       To avoid runtime crash, we keep it empty. Add your FINAL_QUESTIONS here if you have them. */
+    const FINAL_QUESTIONS = [];
+
+    const ProgressBar = ({ current, total }) => (
+      <div className="w-full bg-white/50 h-2 fixed top-0 left-0 z-50">
+        <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full transition-all duration-700 ease-out" style={{ width: `${(current / total) * 100}%` }}></div>
+      </div>
+    );
+
+    const QuestionCard = ({ question, answer, onAnswer }) => {
+      const Icon = question.icon;
+
+      const isMulti = question.type === 'multiselect';
+      const selectedValues = isMulti ? (Array.isArray(answer) ? answer : []) : [answer];
+
+      const handleSelection = (val) => {
+        if (isMulti) {
+          if (selectedValues.includes(val)) {
+            onAnswer(question.id, selectedValues.filter(v => v !== val));
+          } else {
+            if (selectedValues.length < question.maxSelect) {
+              onAnswer(question.id, [...selectedValues, val]);
             }
-        ];
+          }
+        } else {
+          onAnswer(question.id, val);
+        }
+      };
 
-        const BRANCH_QUESTIONS = {
-            stress: [
-                { id: "stress_type", text: "What kind of stress do you experience most?", icon: Icons.Wind, type: "options", options: [{label: "Mental Overload", value: "mental"}, {label: "Emotional Tension", value: "emotional"}, {label: "Physical Fatigue", value: "physical"}, {label: "Social Overwhelmed", value: "social"}] },
-                { id: "calm_type", text: "What kind of calm do you prefer?", icon: Icons.Wind, type: "options", options: [{label: "Deep Relaxation", value: "deep"}, {label: "Soft, Steady Calm", value: "soft"}, {label: "Cleansing And Fresh Calm", value: "fresh"}, {label: "Grounded & Earthy", value: "earthy"}] },
-                { id: "stress_peak", text: "When do you feel stress peaks?", icon: Icons.Sun, type: "options", options: [{label: "Morning", value: "morning"}, {label: "Midday", value: "midday"}, {label: "Evening", value: "evening"}, {label: "All Day", value: "all_day"}] }
-            ],
-            focus: [
-                { id: "focus_block", text: "What blocks your focus most?", icon: Icons.Brain, type: "options", options: [{label: "Distractions", value: "distractions"}, {label: "Mental Fog", value: "fog"}, {label: "Low Motivation", value: "low_mo"}, {label: "Screens / Digital Fatigue", value: "screens"}] },
-                { id: "focus_type", text: "What kind of focus do you want?", icon: Icons.Brain, type: "options", options: [{label: "Sharp And Intense", value: "sharp"}, {label: "Smooth, Steady Concentration", value: "smooth"}, {label: "Creative Focus", value: "creative"}, {label: "Calm Attention", value: "calm"}] },
-                { id: "focus_peak", text: "When do you need focus the most?", icon: Icons.Sun, type: "options", options: [{label: "Morning", value: "morning"}, {label: "Afternoon", value: "afternoon"}, {label: "Evening", value: "evening"}, {label: "Late-night Studying", value: "night"}] }
-            ],
-            creativity: [ 
-                { id: "creative_goal", text: "What are you trying to unlock?", icon: Icons.Brain, type: "options", options: [{label: "Imagination", value: "imagination"}, {label: "Problem Solving", value: "problem_solving"}, {label: "Motivation", value: "motivation"}, {label: "Playfulness", value: "playfulness"}] },
-                { id: "creative_spark", text: "What type of spark do you want?", icon: Icons.Sparkles, type: "options", options: [{label: "Bright & Zesty", value: "bright"}, {label: "Herbal Clarity", value: "herbal"}, {label: "Soft Spice", value: "spice"}, {label: "Unique & Quirky", value: "unique"}] },
-                { id: "creative_time", text: "When are you most creative?", icon: Icons.Sun, type: "options", options: [{label: "Morning", value: "morning"}, {label: "Afternoon", value: "afternoon"}, {label: "Late Evening", value: "late_evening"}, {label: "Random Bursts", value: "random"}] }
-            ],
-            energy: [
-                { id: "energy_drain", text: "What drains your energy most?", icon: Icons.Zap, type: "options", options: [{label: "Lack Of Sleep", value: "sleep"}, {label: "Stress", value: "stress"}, {label: "Mental Burnout", value: "burnout"}, {label: "Boredom / Monotony", value: "boredom"}] },
-                { id: "uplift_type", text: "What kind of uplift do you prefer?", icon: Icons.Zap, type: "options", options: [{label: "Bright, Citrusy", value: "citrus"}, {label: "Warm And Comforting", value: "warm"}, {label: "Fresh And Airy", value: "fresh"}, {label: "Sparkling And Vibrant", value: "vibrant"}] },
-                { id: "energy_dip", text: "When do your energy dips usually happen?", icon: Icons.Sun, type: "options", options: [{label: "Morning", value: "morning"}, {label: "Afternoon Slump", value: "afternoon"}, {label: "Late Evening", value: "evening"}, {label: "Randomly", value: "random"}] }
-            ],
-            balance: [
-                { id: "balance_goal", text: "What do you want to feel more of?", icon: Icons.Heart, type: "options", options: [{label: "Stability", value: "stability"}, {label: "Comfort", value: "comfort"}, {label: "Emotional Strength", value: "strength"}, {label: "Clarity", value: "clarity"}] },
-                { id: "grounding_type", text: "What helps you feel grounded?", icon: Icons.Trees, type: "options", options: [{label: "Earthy Scents", value: "earthy"}, {label: "Woods & Resins", value: "woods"}, {label: "Soft Florals", value: "floral"}, {label: "Warm, Cozy Notes", value: "warm"}] },
-                { id: "imbalance_time", text: "When do you feel most emotionally off‑balance?", icon: Icons.Activity, type: "options", options: [{label: "At Work", value: "work"}, {label: "At Home", value: "home"}, {label: "In Social Situations", value: "social"}, {label: "Random Moments", value: "random"}] }
-            ],
-            sleep: [
-                { id: "sleep_block", text: "What affects your sleep the most?", icon: Icons.Moon, type: "options", options: [{label: "Racing Mind", value: "mind"}, {label: "Stress", value: "stress"}, {label: "Screens", value: "screens"}, {label: "Body Tension", value: "body"}] },
-                { id: "bedtime_vibe", text: "What bedtime vibe do you prefer?", icon: Icons.Moon, type: "options", options: [{label: "Deep Calm", value: "deep"}, {label: "Cozy & Warm", value: "cozy"}, {label: "Dreamy & Soft", value: "dreamy"}, {label: "Clean & Airy", value: "clean"}] },
-                { id: "unwind_time", text: "How long before bed do you unwind?", icon: Icons.Activity, type: "options", options: [{label: "Immediately Before", value: "now"}, {label: "30 Minutes Before", value: "30min"}, {label: "1 Hour Before", value: "1hr"}, {label: "I Don’t Unwind Consciously", value: "none"}] }
-            ],
-            digital: [
-                { id: "city_drain", text: "What drains you most in cities?", icon: Icons.Activity, type: "options", options: [{label: "Noise", value: "noise"}, {label: "Screens", value: "screens"}, {label: "Pollution / Air", value: "pollution"}, {label: "People / Crowds", value: "crowds"}] },
-                { id: "fresh_vibe", text: "What fresh feeling do you want?", icon: Icons.Trees, type: "options", options: [{label: "Clean & Crisp", value: "clean"}, {label: "Herbal Green", value: "herbal"}, {label: "Citrus Bright", value: "citrus"}, {label: "Cool + Minty", value: "cool"}] },
-                { id: "fatigue_time", text: "When does fatigue hit?", icon: Icons.Sun, type: "options", options: [{label: "After Commute", value: "commute"}, {label: "Mid-day Slump", value: "midday"}, {label: "Evenings", value: "evening"}, {label: "Constantly", value: "constantly"}] }
-            ],
-            confidence: [
-                { id: "social_feel", text: "How Do You Usually Feel Before Meeting New People or Attending Social Gatherings??", icon: Icons.Users, type: "options", options: [{label: "Calm Or Excited", value: "calm"}, {label: "Slightly Uneasy", value: "uneasy"}, {label: "Noticeably Anxious", value: "anxious"}, {label: "I Try To Avoid It", value: "avoid"}] },
-                { id: "social_experience", text: "During social interactions, what do you experience most?", icon: Icons.Users, type: "options", options: [{label: "Normal And Present", value: "normal"}, {label: "Overthinking", value: "overthinking"}, {label: "Physical Tension", value: "tension"}, {label: "Urge To Leave", value: "leave"}] },
-                { id: "social_energy", text: "How do social interactions affect your energy?", icon: Icons.Zap, type: "options", options: [{label: "Energizing", value: "energizing"}, {label: "Neutral", value: "neutral"}, {label: "Draining", value: "draining"}, {label: "Extremely Exhausting", value: "exhausting"}] }
-            ]
-        };
-
-        const FINAL_QUESTIONS = [
-            {
-                id: "scent_profile",
-                text: "What kind of scents do you naturally gravitate toward? (Choose up to 3)",
-                icon: Icons.Heart,
-                type: "multiselect",
-                maxSelect: 3,
-                options: [
-                    {label: "Fresh / Citrus", value: "citrus"},
-                    {label: "Woody", value: "woody"},
-                    {label: "Floral", value: "floral"},
-                    {label: "Spicy", value: "spicy"},
-                    {label: "Herbal / Green", value: "herbal"},
-                    {label: "Warm / Sweet", value: "sweet"},
-                    {label: "Clean Musk", value: "musk"},
-                    {label: "Earthy / Resinous", value: "earthy"}
-                ]
-            },
-            {
-                id: "environment",
-                text: "What best describes your daily environment?",
-                icon: Icons.Trees,
-                type: "options",
-                options: [
-                    {label: "Office / Laptop-based", value: "office"},
-                    {label: "Outdoor / Active", value: "outdoor"},
-                    {label: "High-stress Environment", value: "stress"},
-                    {label: "Calm, Home-oriented", value: "home"},
-                    {label: "Mixed And Unpredictable", value: "mixed"}
-                ]
-            },
-            {
-                id: "sensitivity",
-                text: "How sensitive is your nose to strong scents?",
-                icon: Icons.Wind,
-                type: "options",
-                options: [
-                    {label: "Very Sensitive (I Prefer Soft Scents)", value: "high"},
-                    {label: "Medium (I Like Balanced Scents)", value: "medium"},
-                    {label: "I Enjoy Stronger Scents", value: "low"}
-                ]
-            },
-            {
-                id: "format",
-                text: "Which format do you prefer?",
-                icon: Icons.Sparkles,
-                type: "options",
-                options: [
-                    {label: "Roll-on", value: "rollon"},
-                    {label: "Mist / Spray", value: "mist"},
-                    {label: "Solid Perfume", value: "solid"},
-                    {label: "No Preference", value: "any"}
-                ]
-            },
-            {
-                id: "personality_vibe",
-                text: "Which personality vibe matches you most?",
-                icon: Icons.Users,
-                type: "options",
-                options: [
-                    {label: "Calm & Reflective", value: "calm"},
-                    {label: "Energetic & Bright", value: "energy"},
-                    {label: "Grounded & Strong", value: "grounded"},
-                    {label: "Creative & Expressive", value: "creative"},
-                    {label: "Balanced & Easy-going", value: "balanced"}
-                ]
-            }
-        ];
-
-        // --- COMPONENTS ---
-        const ProgressBar = ({ current, total }) => (
-            <div className="w-full bg-white/50 h-2 fixed top-0 left-0 z-50">
-                <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-full transition-all duration-700 ease-out" style={{ width: `${(current / total) * 100}%` }}></div>
+      return (
+        <div className="bg-white/80 backdrop-blur-xl p-4 md:p-10 rounded-3xl shadow-lg border border-white/60 w-full animate-fade-in flex flex-col justify-center min-h-[auto] md:min-h-[400px]">
+          <div className="flex items-center gap-2 md:gap-4 mb-2 md:mb-8 justify-center">
+            <div className="p-2 md:p-4 bg-fuchsia-50 text-fuchsia-600 rounded-2xl shadow-inner">
+              <Icon className="w-5 h-5 md:w-8 md:h-8" />
             </div>
-        );
+          </div>
 
-        const QuestionCard = ({ question, answer, onAnswer }) => {
-            const Icon = question.icon;
-            
-            const isMulti = question.type === 'multiselect';
-            const selectedValues = isMulti ? (Array.isArray(answer) ? answer : []) : [answer];
-            
-            const handleSelection = (val) => {
-                if (isMulti) {
-                    if (selectedValues.includes(val)) {
-                        onAnswer(question.id, selectedValues.filter(v => v !== val));
-                    } else {
-                        if (selectedValues.length < question.maxSelect) {
-                            onAnswer(question.id, [...selectedValues, val]);
-                        }
-                    }
-                } else {
-                    onAnswer(question.id, val);
-                }
-            };
+          <h3 className="text-xl md:text-4xl font-bold text-slate-800 mb-4 md:mb-6 leading-snug text-center">{question.text}</h3>
+          {isMulti && <p className="text-center text-slate-500 mb-4 text-xs md:text-sm">Select up to {question.maxSelect}</p>}
+          {!isMulti && <div className="mb-2 md:mb-6"></div>}
 
-            return (
-                <div className="bg-white/80 backdrop-blur-xl p-4 md:p-10 rounded-3xl shadow-lg border border-white/60 w-full animate-fade-in flex flex-col justify-center min-h-[auto] md:min-h-[400px]">
-                    <div className="flex items-center gap-2 md:gap-4 mb-2 md:mb-8 justify-center">
-                        <div className="p-2 md:p-4 bg-fuchsia-50 text-fuchsia-600 rounded-2xl shadow-inner">
-                            <Icon className="w-5 h-5 md:w-8 md:h-8" />
-                        </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 md:gap-4 w-full max-w-3xl mx-auto">
+            {question.options.map((opt) => {
+              const isSelected = selectedValues.includes(opt.value);
+              return (
+                <button
+                  key={opt.label}
+                  onClick={() => handleSelection(opt.value)}
+                  className={`option-btn group relative py-2 px-3 md:py-4 md:px-6 rounded-xl md:rounded-2xl text-xs md:text-lg font-medium border-2 flex items-center justify-between text-left w-full transition-all duration-300 ${
+                    isSelected
+                      ? 'active selected shadow-xl scale-[1.02]'
+                      : 'border-white/50 bg-white/60 text-slate-600 hover:bg-white hover:border-purple-200 hover:shadow-lg hover:-translate-y-1'
+                  }`}
+                >
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className={`w-4 h-4 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 shrink-0 ${
+                      isSelected ? 'border-white' : 'border-purple-200 group-hover:border-purple-400'
+                    }`}>
+                      <div className={`w-1.5 h-1.5 md:w-2.5 md:h-2.5 rounded-full transition-all duration-300 ${
+                        isSelected ? 'bg-white scale-100' : 'bg-purple-300 scale-0 group-hover:scale-50 opacity-50'
+                      }`} />
                     </div>
-                    
-                    <h3 className="text-xl md:text-4xl font-bold text-slate-800 mb-4 md:mb-6 leading-snug text-center">{question.text}</h3>
-                    {isMulti && <p className="text-center text-slate-500 mb-4 text-xs md:text-sm">Select up to {question.maxSelect}</p>}
-                    {!isMulti && <div className="mb-2 md:mb-6"></div>}
+                    <span className="leading-tight tracking-tight">{opt.label}</span>
+                  </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 md:gap-4 w-full max-w-3xl mx-auto">
-                        {question.options.map((opt) => {
-                            const isSelected = selectedValues.includes(opt.value);
-                            return (
-                                <button
-                                    key={opt.label}
-                                    onClick={() => handleSelection(opt.value)}
-                                    className={`option-btn group relative py-2 px-3 md:py-4 md:px-6 rounded-xl md:rounded-2xl text-xs md:text-lg font-medium border-2 flex items-center justify-between text-left w-full transition-all duration-300 ${
-                                        isSelected 
-                                        ? 'active selected shadow-xl scale-[1.02]' 
-                                        : 'border-white/50 bg-white/60 text-slate-600 hover:bg-white hover:border-purple-200 hover:shadow-lg hover:-translate-y-1'
-                                    }`}
-                                >
-                                    <div className="flex items-center gap-2 md:gap-4">
-                                        <div className={`w-4 h-4 md:w-6 md:h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 shrink-0 ${
-                                            isSelected ? 'border-white' : 'border-purple-200 group-hover:border-purple-400'
-                                        }`}>
-                                            <div className={`w-1.5 h-1.5 md:w-2.5 md:h-2.5 rounded-full transition-all duration-300 ${
-                                                isSelected ? 'bg-white scale-100' : 'bg-purple-300 scale-0 group-hover:scale-50 opacity-50'
-                                            }`} />
-                                        </div>
-                                        <span className="leading-tight tracking-tight">{opt.label}</span>
-                                    </div>
+                  <div className={`transition-all duration-300 ${isSelected ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}>
+                    <Icons.ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      );
+    };
 
-                                    <div className={`transition-all duration-300 ${isSelected ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'}`}>
-                                        <Icons.ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-                                    </div>
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-            );
+    function App() {
+      const [started, setStarted] = useState(false);
+      const [step, setStep] = useState(0);
+      const [answers, setAnswers] = useState({});
+      const [result, setResult] = useState(null);
+      const [questionQueue, setQuestionQueue] = useState([]);
+
+      useEffect(() => {
+        setQuestionQueue(INITIAL_QUESTIONS);
+      }, []);
+
+      const handleAnswer = (qId, val) => {
+        const newAnswers = { ...answers, [qId]: val };
+        setAnswers(newAnswers);
+
+        if (qId === 'wellness_priority') {
+          const priority = val;
+          const branchQs = BRANCH_QUESTIONS[priority] || BRANCH_QUESTIONS['balance'];
+          const newQueue = [...INITIAL_QUESTIONS, ...branchQs, ...FINAL_QUESTIONS];
+          setQuestionQueue(newQueue);
+        }
+      };
+
+      const submitDataToSheet = (finalResult) => {
+        if (!GOOGLE_SCRIPT_URL) return;
+        const data = {
+          name: "Anonymous",
+          phone: "Not Provided",
+          perfumeName: finalResult.name,
+          primaryNeed: answers['wellness_priority'] || "General",
+          scores: JSON.stringify(answers)
         };
+        fetch(GOOGLE_SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).catch(err => console.error(err));
+      };
 
-        // --- MAIN APP ---
-        function App() {
-            const [started, setStarted] = useState(false);
-            const [step, setStep] = useState(0); 
-            const [answers, setAnswers] = useState({});
-            const [result, setResult] = useState(null);
-            const [questionQueue, setQuestionQueue] = useState([]);
+      const calculateResult = () => {
+        const priority = answers['wellness_priority'];
+        const scentPrefs = answers['scent_profile'] || [];
+        const vibe = answers['personality_vibe'];
 
-            useEffect(() => {
-                setQuestionQueue(INITIAL_QUESTIONS);
-            }, []);
+        let candidates = [];
 
-            const handleAnswer = (qId, val) => {
-                const newAnswers = { ...answers, [qId]: val };
-                setAnswers(newAnswers);
-
-                if (qId === 'wellness_priority') {
-                    const priority = val;
-                    const branchQs = BRANCH_QUESTIONS[priority] || BRANCH_QUESTIONS['balance'];
-                    const newQueue = [...INITIAL_QUESTIONS, ...branchQs, ...FINAL_QUESTIONS];
-                    setQuestionQueue(newQueue);
-                }
-            };
-
-            const submitDataToSheet = (finalResult) => {
-                if (!GOOGLE_SCRIPT_URL) return; 
-                const data = {
-                    name: "Anonymous",
-                    phone: "Not Provided",
-                    perfumeName: finalResult.name,
-                    primaryNeed: answers['wellness_priority'] || "General",
-                    scores: JSON.stringify(answers) 
-                };
-                fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                }).catch(err => console.error(err));
-            };
-
-            const calculateResult = () => {
-                const priority = answers['wellness_priority'];
-                const scentPrefs = answers['scent_profile'] || [];
-                const vibe = answers['personality_vibe'];
-                
-                let candidates = [];
-                
-                if (priority === 'stress' || priority === 'sleep') {
-                    candidates = FRAGRANCE_DB.filter(f => f.category === 'stress_sleep');
-                } else if (priority === 'focus' || priority === 'creativity') {
-                    candidates = FRAGRANCE_DB.filter(f => f.category === 'focus');
-                } else if (priority === 'energy') {
-                    candidates = FRAGRANCE_DB.filter(f => f.category === 'energy');
-                } else if (priority === 'digital') {
-                    candidates = FRAGRANCE_DB.filter(f => f.category === 'digital');
-                } else if (priority === 'confidence') {
-                    candidates = FRAGRANCE_DB.filter(f => f.category === 'confidence');
-                } else {
-                    candidates = FRAGRANCE_DB.filter(f => f.category === 'balance');
-                }
-
-                if (candidates.length === 0) candidates = FRAGRANCE_DB;
-
-                const scoredCandidates = candidates.map(perfume => {
-                    let score = 0;
-                    scentPrefs.forEach(pref => {
-                        const prefLower = pref.toLowerCase();
-                        if (perfume.tags.some(tag => prefLower.includes(tag))) score += 3;
-                    });
-
-                    if (vibe) {
-                         if (vibe === 'calm' && (perfume.tags.includes('calm') || perfume.tags.includes('sleep'))) score += 2;
-                         if (vibe === 'energy' && (perfume.tags.includes('energy') || perfume.tags.includes('fresh'))) score += 2;
-                         if (vibe === 'grounded' && (perfume.tags.includes('grounding') || perfume.tags.includes('wood'))) score += 2;
-                         if (vibe === 'creative' && (perfume.tags.includes('creativity') || perfume.tags.includes('art'))) score += 2;
-                    }
-
-                    return { ...perfume, score };
-                });
-
-                scoredCandidates.sort((a, b) => b.score - a.score);
-                
-                const match = scoredCandidates[0];
-                setResult(match);
-                submitDataToSheet(match);
-                setStep(questionQueue.length);
-            };
-
-            const currentQuestion = questionQueue[step];
-            const canProceed = currentQuestion ? (
-                currentQuestion.type === 'multiselect' 
-                ? (answers[currentQuestion.id] && answers[currentQuestion.id].length > 0)
-                : answers[currentQuestion.id] !== undefined
-            ) : false;
-
-            return (
-                <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-fuchsia-50">
-                    {started && step < questionQueue.length && <ProgressBar current={step + 1} total={questionQueue.length} />}
-
-                    {/* LANDING PAGE */}
-                    {!started && (
-                        <div className="h-full w-full flex flex-col items-center justify-center p-6 text-center animate-fade-in relative overflow-hidden">
-                            
-                            <div className="bg-white/60 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/50 max-w-lg w-full relative z-10 mx-4">
-                                <div className="mb-6 mx-auto flex flex-col items-center justify-center text-center logo-container">
-                                    {/* Updated Logo Area */}
-                                    <div className="logo-title">AILURE</div>
-                                    <div className="logo-subtitle">AI-Personalised Scents. For Calm.</div>
-                                </div>
-                                
-                                <div className="w-16 h-1 bg-purple-400 mx-auto mb-6 rounded-full"></div>
-
-                                <p className="text-sm md:text-base text-slate-700 font-medium italic mb-8 leading-relaxed px-2">
-                                    "At Ailure, We use intelligent technology to understand the unseen your shifting moods, your emotional rhythms, and the subtle signals that shape your day. Our AI doesn’t guess; it listens, learns, and responds with precision, creating a personalized pathway to calm that adapts to the way you feel."
-                                </p>
-                                
-                                <button onClick={() => setStarted(true)} className="w-full bg-slate-900 text-white py-4 rounded-xl text-xl font-bold shadow-xl flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors">
-                                    Begin Journey <Icons.ArrowRight className="w-5 h-5" />
-                                </button>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* QUESTIONS */}
-                    {started && step < questionQueue.length && (
-                        <div className="h-full w-full flex flex-col relative overflow-hidden">
-                            <div className="flex-1 overflow-y-auto p-4 flex flex-col items-center justify-center pb-32">
-                                <QuestionCard 
-                                    key={currentQuestion.id} 
-                                    question={currentQuestion} 
-                                    answer={answers[currentQuestion.id]} 
-                                    onAnswer={handleAnswer} 
-                                />
-                            </div>
-                            <div className="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur-lg border-t border-white/60 p-4 safe-bottom z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
-                                <div className="max-w-xl mx-auto grid grid-cols-3 items-center">
-                                    <div className="text-left">
-                                        <button onClick={() => setStep(s => Math.max(0, s - 1))} className={`text-gray-400 font-bold hover:text-slate-800 px-4 py-3 transition-colors ${step === 0 ? 'opacity-0 pointer-events-none' : ''}`}>Back</button>
-                                    </div>
-                                    <div className="text-center">
-                                        <button 
-                                            onClick={() => step === questionQueue.length - 1 ? calculateResult() : setStep(s => s + 1)} 
-                                            disabled={!canProceed} 
-                                            className={`px-10 py-3 rounded-full font-bold text-lg shadow-lg transition-all flex items-center gap-2 mx-auto ${canProceed ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white active:scale-95' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
-                                        >
-                                            {step === questionQueue.length - 1 ? "Reveal" : "Next"} <Icons.ArrowRight className="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                    <div></div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* RESULT SCREEN */}
-                    {started && step >= questionQueue.length && result && (
-                        <div className="h-full w-full flex flex-col md:flex-row overflow-hidden animate-fade-in bg-white">
-                            {/* Left Side: GLASS CARD OVER IMAGE */}
-                            <div className="md:w-5/12 h-[45vh] md:h-full relative overflow-hidden flex items-center justify-center bg-gray-900 group shrink-0">
-                                {/* Background Image */}
-                                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110" style={{ backgroundImage: `url('${result.image}')` }}></div>
-                                <div className="absolute inset-0 bg-black/40"></div>
-                                
-                                {/* The Glass Card */}
-                                <div className="relative z-10 bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-[2rem] text-center text-white shadow-2xl max-w-xs w-full mx-6 animate-float">
-                                    <div className="w-16 h-16 mx-auto bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 ring-1 ring-white/40 shadow-lg">
-                                        <result.iconComponent className="w-8 h-8 text-white" />
-                                    </div>
-                                    <div className="text-xs font-bold tracking-[0.3em] uppercase text-white/80 mb-3">Your Soul Scent</div>
-                                    <div className="text-5xl font-mono font-light tracking-tighter mb-4 opacity-90">#{result.id.toString().padStart(3, '0')}</div>
-                                    <h2 className="text-3xl font-bold serif-font mb-2 drop-shadow-md">{result.name}</h2>
-                                    <div className="w-10 h-1 bg-white/50 mx-auto mt-4 rounded-full"></div>
-                                </div>
-                            </div>
-
-                            {/* Right Side */}
-                            <div className="md:w-7/12 h-full overflow-y-auto bg-white custom-scrollbar p-8 md:p-16 pb-24">
-                                <div className="max-w-xl mx-auto">
-                                    <div className="mb-8">
-                                        <span className="inline-block py-1.5 px-4 rounded-full bg-fuchsia-50 text-fuchsia-700 text-xs font-bold uppercase tracking-widest mb-4 border border-fuchsia-100">
-                                            Insight Verified
-                                        </span>
-                                        <h2 className="text-3xl font-black text-slate-900 leading-tight mb-4">
-                                            We've found a match for your {answers['wellness_priority'] ? answers['wellness_priority'].replace(/_/g, ' ') : 'needs'}.
-                                        </h2>
-                                        <div className="text-4xl font-serif text-purple-600 mb-6">{result.name}</div>
-                                        <p className="text-lg text-slate-500 font-light leading-relaxed mb-6">{result.description}</p>
-                                        
-                                        <div className="flex flex-wrap gap-2 mb-8">
-                                            {result.moods.map((m, i) => (
-                                                <span key={i} className="px-4 py-2 bg-purple-50 text-purple-700 rounded-lg text-sm font-semibold border border-purple-100 shadow-sm">
-                                                    {m}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="text-center pt-8 border-t border-gray-100">
-                                        <button onClick={() => { setStarted(false); setStep(0); setAnswers({}); setQuestionQueue(INITIAL_QUESTIONS); }} className="text-slate-400 hover:text-fuchsia-600 font-bold text-sm flex items-center justify-center gap-2 mx-auto"><Icons.RefreshCw className="w-4 h-4" /> Start New Assessment</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
+        if (priority === 'stress' || priority === 'sleep') {
+          candidates = FRAGRANCE_DB.filter(f => f.category === 'stress_sleep');
+        } else if (priority === 'focus' || priority === 'creativity') {
+          candidates = FRAGRANCE_DB.filter(f => f.category === 'focus');
+        } else if (priority === 'energy') {
+          candidates = FRAGRANCE_DB.filter(f => f.category === 'energy');
+        } else if (priority === 'digital') {
+          candidates = FRAGRANCE_DB.filter(f => f.category === 'digital');
+        } else if (priority === 'confidence') {
+          candidates = FRAGRANCE_DB.filter(f => f.category === 'confidence');
+        } else {
+          candidates = FRAGRANCE_DB.filter(f => f.category === 'balance');
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+        if (candidates.length === 0) candidates = FRAGRANCE_DB;
+
+        const scoredCandidates = candidates.map(perfume => {
+          let score = 0;
+          scentPrefs.forEach(pref => {
+            const prefLower = String(pref).toLowerCase();
+            if (perfume.tags.some(tag => prefLower.includes(tag))) score += 3;
+          });
+
+          if (vibe) {
+            if (vibe === 'calm' && (perfume.tags.includes('calm') || perfume.tags.includes('sleep'))) score += 2;
+            if (vibe === 'energy' && (perfume.tags.includes('energy') || perfume.tags.includes('fresh'))) score += 2;
+            if (vibe === 'grounded' && (perfume.tags.includes('grounding') || perfume.tags.includes('wood'))) score += 2;
+            if (vibe === 'creative' && (perfume.tags.includes('creativity') || perfume.tags.includes('art'))) score += 2;
+          }
+
+          return { ...perfume, score };
+        });
+
+        scoredCandidates.sort((a, b) => b.score - a.score);
+
+        const match = scoredCandidates[0];
+        setResult(match);
+        submitDataToSheet(match);
+        setStep(questionQueue.length);
+      };
+
+      const currentQuestion = questionQueue[step];
+      const canProceed = currentQuestion ? (
+        currentQuestion.type === 'multiselect'
+          ? (answers[currentQuestion.id] && answers[currentQuestion.id].length > 0)
+          : answers[currentQuestion.id] !== undefined
+      ) : false;
+
+      return (
+        <div className="h-[100dvh] w-full flex flex-col overflow-hidden bg-white">
+          {started && step < questionQueue.length && <ProgressBar current={step + 1} total={questionQueue.length} />}
+
+          {/* ✅ LANDING PAGE with IMAGE background */}
+          {!started && (
+            <div className="front-bg h-full w-full flex flex-col items-center justify-center p-6 text-center animate-fade-in overflow-hidden">
+              <div className="bg-white/60 backdrop-blur-xl p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-white/50 max-w-lg w-full relative z-10 mx-4">
+                <div className="mb-6 mx-auto flex flex-col items-center justify-center text-center logo-container">
+                  <div className="logo-title">AILURE</div>
+                  <div className="logo-subtitle">AI-Personalised Scents. For Calm.</div>
+                </div>
+
+                <div className="w-16 h-1 bg-purple-400 mx-auto mb-6 rounded-full"></div>
+
+                <p className="text-sm md:text-base text-slate-700 font-medium italic mb-8 leading-relaxed px-2">
+                  "At Ailure, We use intelligent technology to understand the unseen your shifting moods, your emotional rhythms, and the subtle signals that shape your day. Our AI doesn’t guess; it listens, learns, and responds with precision, creating a personalized pathway to calm that adapts to the way you feel."
+                </p>
+
+                <button onClick={() => setStarted(true)} className="w-full bg-slate-900 text-white py-4 rounded-xl text-xl font-bold shadow-xl flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors">
+                  Begin Journey <Icons.ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* QUESTIONS */}
+          {started && step < questionQueue.length && (
+            <div className="h-full w-full flex flex-col relative overflow-hidden">
+              <div className="flex-1 overflow-y-auto p-4 flex flex-col items-center justify-center pb-32">
+                <QuestionCard
+                  key={currentQuestion.id}
+                  question={currentQuestion}
+                  answer={answers[currentQuestion.id]}
+                  onAnswer={handleAnswer}
+                />
+              </div>
+
+              <div className="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur-lg border-t border-white/60 p-4 safe-bottom z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+                <div className="max-w-xl mx-auto grid grid-cols-3 items-center">
+                  <div className="text-left">
+                    <button onClick={() => setStep(s => Math.max(0, s - 1))}
+                      className={`text-gray-400 font-bold hover:text-slate-800 px-4 py-3 transition-colors ${step === 0 ? 'opacity-0 pointer-events-none' : ''}`}>
+                      Back
+                    </button>
+                  </div>
+
+                  <div className="text-center">
+                    <button
+                      onClick={() => step === questionQueue.length - 1 ? calculateResult() : setStep(s => s + 1)}
+                      disabled={!canProceed}
+                      className={`px-10 py-3 rounded-full font-bold text-lg shadow-lg transition-all flex items-center gap-2 mx-auto ${canProceed ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white active:scale-95' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
+                    >
+                      {step === questionQueue.length - 1 ? "Reveal" : "Next"} <Icons.ArrowRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* RESULT SCREEN */}
+          {started && step >= questionQueue.length && result && (
+            <div className="h-full w-full flex flex-col md:flex-row overflow-hidden animate-fade-in bg-white">
+              <div className="md:w-5/12 h-[45vh] md:h-full relative overflow-hidden flex items-center justify-center bg-gray-900 group shrink-0">
+                <div className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-110" style={{ backgroundImage: `url('${result.image}')` }}></div>
+                <div className="absolute inset-0 bg-black/40"></div>
+
+                <div className="relative z-10 bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-[2rem] text-center text-white shadow-2xl max-w-xs w-full mx-6 animate-float">
+                  <div className="w-16 h-16 mx-auto bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center mb-6 ring-1 ring-white/40 shadow-lg">
+                    <result.iconComponent className="w-8 h-8 text-white" />
+                  </div>
+                  <div className="text-xs font-bold tracking-[0.3em] uppercase text-white/80 mb-3">Your Soul Scent</div>
+                  <div className="text-5xl font-mono font-light tracking-tighter mb-4 opacity-90">#{result.id.toString().padStart(3, '0')}</div>
+                  <h2 className="text-3xl font-bold serif-font mb-2 drop-shadow-md">{result.name}</h2>
+                  <div className="w-10 h-1 bg-white/50 mx-auto mt-4 rounded-full"></div>
+                </div>
+              </div>
+
+              <div className="md:w-7/12 h-full overflow-y-auto bg-white custom-scrollbar p-8 md:p-16 pb-24">
+                <div className="max-w-xl mx-auto">
+                  <div className="mb-8">
+                    <span className="inline-block py-1.5 px-4 rounded-full bg-fuchsia-50 text-fuchsia-700 text-xs font-bold uppercase tracking-widest mb-4 border border-fuchsia-100">
+                      Insight Verified
+                    </span>
+                    <h2 className="text-3xl font-black text-slate-900 leading-tight mb-4">
+                      We've found a match for your {answers['wellness_priority'] ? answers['wellness_priority'].replace(/_/g, ' ') : 'needs'}.
+                    </h2>
+                    <div className="text-4xl font-serif text-purple-600 mb-6">{result.name}</div>
+                    <p className="text-lg text-slate-500 font-light leading-relaxed mb-6">{result.description}</p>
+
+                    <div className="flex flex-wrap gap-2 mb-8">
+                      {result.moods.map((m, i) => (
+                        <span key={i} className="px-4 py-2 bg-purple-50 text-purple-700 rounded-lg text-sm font-semibold border border-purple-100 shadow-sm">
+                          {m}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="text-center pt-8 border-t border-gray-100">
+                    <button onClick={() => { setStarted(false); setStep(0); setAnswers({}); setQuestionQueue(INITIAL_QUESTIONS); }}
+                      className="text-slate-400 hover:text-fuchsia-600 font-bold text-sm flex items-center justify-center gap-2 mx-auto">
+                      <Icons.RefreshCw className="w-4 h-4" /> Start New Assessment
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
 </body>
 </html>
